@@ -8,7 +8,11 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -22,11 +26,7 @@ app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/api/leaves", require("./routes/leaveRoutes"));
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+
 
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
