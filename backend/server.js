@@ -26,8 +26,6 @@ app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/api/leaves", require("./routes/leaveRoutes"));
 
-
-
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 });
