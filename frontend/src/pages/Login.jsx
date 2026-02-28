@@ -66,6 +66,8 @@ const Login = () => {
         "
         >
           Welcome Back
+          <br />
+          On StaffSync
         </h2>
 
         {error && (

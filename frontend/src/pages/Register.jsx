@@ -60,6 +60,8 @@ const Register = () => {
         "
         >
           Create Account
+          <br />
+          On StaffSync
         </h2>
 
         {error && (
