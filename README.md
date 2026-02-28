@@ -1,6 +1,6 @@
 # StaffSync - Employee Leave & Reimbursement Management System
 
-![Banner Placeholder](https://via.placeholder.com/1200x400.png?text=StaffSync+-+Leave+%26+Reimbursement+Manager)
+![Banner Placeholder](https://placehold.co/1200x400/2563eb/ffffff?text=StaffSync+-+Employee+Leave+%26+Reimbursement+Manager&font=montserrat)
 
 A comprehensive, full-stack application designed to streamline internal company workflows, including leave requests, reimbursement approvals, and employee management. Built with a modern tech stack focusing on scalability, security, and a seamless user experience.
 
