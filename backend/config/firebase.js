@@ -5,8 +5,6 @@ try {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
   } else {
-    // We wrapped this in a try-catch because on Render this file won't exist
-    // and we don't want the entire server to crash immediately on boot.
     serviceAccount = require("./firebaseServiceKey.json");
   }
 
