@@ -15,11 +15,15 @@ const ManagerDashboard = () => {
   const [viewText, setViewText] = useState(null);
 
   const fetchData = async () => {
-    const res = await API.get("/leaves/all");
-    setLeaves(res.data);
+    try {
+      const res = await API.get("/leaves/all");
+      setLeaves(Array.isArray(res.data) ? res.data : []);
 
-    const res2 = await API.get("/reimbursements/all");
-    setReimbursements(res2.data);
+      const res2 = await API.get("/reimbursements/all");
+      setReimbursements(Array.isArray(res2.data) ? res2.data : []);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
   };
 
   useEffect(() => {
@@ -83,8 +87,10 @@ const ManagerDashboard = () => {
   );
 
   // COUNTS 
-  const countByStatus = (data, status) =>
-    data.filter((item) => item.status === status).length;
+  const countByStatus = (data, status) => {
+    if (!Array.isArray(data)) return 0;
+    return data.filter((item) => item?.status === status).length;
+  };
 
   const activeData = activeTab === "leaves" ? leaves : reimbursements;
 
@@ -108,10 +114,9 @@ const ManagerDashboard = () => {
           <button
             onClick={() => setActiveTab("leaves")}
             className={`px-6 py-2.5 rounded-xl font-semibold transition shadow 
-              ${
-                activeTab === "leaves"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              ${activeTab === "leaves"
+                ? "bg-indigo-600 text-white shadow-lg"
+                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               }`}
           >
             Leave Requests
@@ -120,10 +125,9 @@ const ManagerDashboard = () => {
           <button
             onClick={() => setActiveTab("reimbursements")}
             className={`px-6 py-2.5 rounded-xl font-semibold transition shadow 
-              ${
-                activeTab === "reimbursements"
-                  ? "bg-indigo-600 text-white shadow-lg"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+              ${activeTab === "reimbursements"
+                ? "bg-indigo-600 text-white shadow-lg"
+                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
               }`}
           >
             Reimbursement Requests
@@ -141,11 +145,11 @@ const ManagerDashboard = () => {
             {/* Approved */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 
               dark:from-green-900 dark:to-green-800 border border-green-300 dark:border-green-700 shadow-lg">
-              
+
               <h3 className="text-xl font-semibold text-green-800 dark:text-green-300 mb-4">
                 Approved
               </h3>
-              
+
               <p className="text-4xl font-extrabold text-green-700 dark:text-green-300">
                 {countByStatus(activeData, "Approved")}
               </p>
@@ -154,11 +158,11 @@ const ManagerDashboard = () => {
             {/* Pending */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 
               dark:from-yellow-900 dark:to-yellow-800 border border-yellow-300 dark:border-yellow-700 shadow-lg">
-              
+
               <h3 className="text-xl font-semibold text-yellow-800 dark:text-yellow-300 mb-4">
                 Pending
               </h3>
-              
+
               <p className="text-4xl font-extrabold text-yellow-700 dark:text-yellow-300">
                 {countByStatus(activeData, "Pending")}
               </p>
@@ -167,11 +171,11 @@ const ManagerDashboard = () => {
             {/* Rejected */}
             <div className="p-6 rounded-2xl bg-gradient-to-br from-red-50 to-red-100 
               dark:from-red-900 dark:to-red-800 border border-red-300 dark:border-red-700 shadow-lg">
-              
+
               <h3 className="text-xl font-semibold text-red-800 dark:text-red-300 mb-4">
                 Rejected
               </h3>
-              
+
               <p className="text-4xl font-extrabold text-red-700 dark:text-red-300">
                 {countByStatus(activeData, "Rejected")}
               </p>
@@ -180,7 +184,7 @@ const ManagerDashboard = () => {
           </div>
         </div>
 
-        
+
 
         {/* LEAVES TABLE */}
         {activeTab === "leaves" && (
@@ -189,7 +193,7 @@ const ManagerDashboard = () => {
 
             <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl 
               border border-gray-200 dark:border-gray-700">
-              
+
               <table className="min-w-full text-sm">
                 <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                   <tr>
@@ -223,10 +227,9 @@ const ManagerDashboard = () => {
                       <td className="p-3">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold 
-                            ${
-                              leave.status === "Approved"
-                                ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
-                                : leave.status === "Rejected"
+                            ${leave.status === "Approved"
+                              ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
+                              : leave.status === "Rejected"
                                 ? "bg-red-100 text-red-700 dark:bg-red-700 dark:text-white"
                                 : "bg-yellow-100 text-yellow-700 dark:bg-yellow-700 dark:text-white"
                             }`}
@@ -254,7 +257,7 @@ const ManagerDashboard = () => {
 
             <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl 
               border border-gray-200 dark:border-gray-700">
-              
+
               <table className="min-w-full text-sm">
                 <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                   <tr>
@@ -286,10 +289,9 @@ const ManagerDashboard = () => {
                       <td className="p-3">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold 
-                            ${
-                              r.status === "Approved"
-                                ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
-                                : r.status === "Rejected"
+                            ${r.status === "Approved"
+                              ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
+                              : r.status === "Rejected"
                                 ? "bg-red-100 text-red-700 dark:bg-red-700 dark:text-white"
                                 : "bg-yellow-100 text-yellow-700 dark:bg-yellow-700 dark:text-white"
                             }`}

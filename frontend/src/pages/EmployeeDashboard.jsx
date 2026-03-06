@@ -9,18 +9,24 @@ const EmployeeDashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await API.get("/leaves/my-leaves");
-      setLeaves(res.data);
+      try {
+        const res = await API.get("/leaves/my-leaves");
+        setLeaves(Array.isArray(res.data) ? res.data : []);
 
-      const res2 = await API.get("/reimbursements/my");
-      setReimbursements(res2.data);
+        const res2 = await API.get("/reimbursements/my");
+        setReimbursements(Array.isArray(res2.data) ? res2.data : []);
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      }
     };
 
     fetchData();
   }, []);
 
-  const countByStatus = (data, status) =>
-    data.filter((item) => item.status === status).length;
+  const countByStatus = (data, status) => {
+    if (!Array.isArray(data)) return 0;
+    return data.filter((item) => item?.status === status).length;
+  };
 
   return (
     <Layout>
@@ -151,10 +157,9 @@ const EmployeeDashboard = () => {
                       <td className="p-3">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold 
-                            ${
-                              leave.status === "Approved"
-                                ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
-                                : leave.status === "Rejected"
+                            ${leave.status === "Approved"
+                              ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
+                              : leave.status === "Rejected"
                                 ? "bg-red-100 text-red-700 dark:bg-red-700 dark:text-white"
                                 : "bg-yellow-100 text-yellow-700 dark:bg-yellow-700 dark:text-white"
                             }
@@ -210,10 +215,9 @@ const EmployeeDashboard = () => {
                       <td className="p-3">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold 
-                            ${
-                              r.status === "Approved"
-                                ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
-                                : r.status === "Rejected"
+                            ${r.status === "Approved"
+                              ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-white"
+                              : r.status === "Rejected"
                                 ? "bg-red-100 text-red-700 dark:bg-red-700 dark:text-white"
                                 : "bg-yellow-100 text-yellow-700 dark:bg-yellow-700 dark:text-white"
                             }
