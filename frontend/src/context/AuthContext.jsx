@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const AuthContext = createContext();
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -46,16 +46,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loginWithGoogle = async (tokenFromGoogle) => {
-  const res = await axios.post(`${API_URL}/auth/google`, {
-    token: tokenFromGoogle,
-  });
+    const res = await axios.post(`${API_URL}/auth/google`, {
+      token: tokenFromGoogle,
+    });
 
-  localStorage.setItem("token", res.data.token);
-  setToken(res.data.token);
-  setUser(res.data.user);
+    localStorage.setItem("token", res.data.token);
+    setToken(res.data.token);
+    setUser(res.data.user);
 
-  return res.data.user;
-};
+    return res.data.user;
+  };
 
   // Register
   const register = async (name, email, password, role) => {
@@ -76,16 +76,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-  value={{
-    user,
-    token,
-    loading,
-    login,
-    register,
-    logout,
-    loginWithGoogle,   
-  }}
->
+      value={{
+        user,
+        token,
+        loading,
+        login,
+        register,
+        logout,
+        loginWithGoogle,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
