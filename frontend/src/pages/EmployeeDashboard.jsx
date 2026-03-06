@@ -32,7 +32,7 @@ const EmployeeDashboard = () => {
     <Layout>
       <div className="space-y-12">
 
-        {/* TOP HEADER  */}
+        
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-extrabold 
             bg-gradient-to-r from-indigo-600 to-purple-600 
@@ -46,7 +46,7 @@ const EmployeeDashboard = () => {
           </span>
         </div>
 
-        {/* SUMMARY BOXES  */}
+        
         <div>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
             Overview
@@ -54,7 +54,7 @@ const EmployeeDashboard = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            {/* Approved */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 
                 dark:from-green-900 dark:to-green-800 border border-green-300 dark:border-green-700 shadow-lg">
               <h3 className="text-xl font-semibold text-green-800 dark:text-green-300 mb-4">
@@ -78,7 +78,7 @@ const EmployeeDashboard = () => {
               </div>
             </div>
 
-            {/* Pending */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100
                 dark:from-yellow-900 dark:to-yellow-800 border border-yellow-300 dark:border-yellow-700 shadow-lg">
               <h3 className="text-xl font-semibold text-yellow-800 dark:text-yellow-300 mb-4">
@@ -102,7 +102,7 @@ const EmployeeDashboard = () => {
               </div>
             </div>
 
-            {/* Rejected */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-red-50 to-red-100
                 dark:from-red-900 dark:to-red-800 border border-red-300 dark:border-red-700 shadow-lg">
               <h3 className="text-xl font-semibold text-red-800 dark:text-red-300 mb-4">
@@ -129,10 +129,10 @@ const EmployeeDashboard = () => {
           </div>
         </div>
 
-        {/* LEAVES & REIMBURSEMENTS SECTION */}
+        
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-          {/* LEAVES TABLE */}
+          
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
               My Leaves
@@ -152,7 +152,7 @@ const EmployeeDashboard = () => {
                 <tbody>
                   {leaves.map((leave) => (
                     <tr key={leave._id} className="border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                      <td className="p-3">{leave.leaveType}</td>
+                      <td className="p-3 text-gray-800 dark:text-gray-100">{leave.leaveType}</td>
 
                       <td className="p-3">
                         <span
@@ -190,7 +190,7 @@ const EmployeeDashboard = () => {
             </div>
           </div>
 
-          {/* REIMBURSEMENTS TABLE */}
+          
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
               My Reimbursements
@@ -210,7 +210,7 @@ const EmployeeDashboard = () => {
                 <tbody>
                   {reimbursements.map((r) => (
                     <tr key={r._id} className="border-t dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                      <td className="p-3">₹ {r.amount}</td>
+                      <td className="p-3 text-gray-800 dark:text-gray-100">₹ {r.amount}</td>
 
                       <td className="p-3">
                         <span
@@ -251,7 +251,7 @@ const EmployeeDashboard = () => {
         </div>
       </div>
 
-      {/* MODAL */}
+      
       {viewText && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 backdrop-blur-sm">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl w-full max-w-md border border-gray-300 dark:border-gray-700">

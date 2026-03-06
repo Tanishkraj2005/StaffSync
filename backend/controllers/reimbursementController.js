@@ -1,9 +1,5 @@
 const Reimbursement = require("../models/Reimbursement");
 
-
-// APPLY REIMBURSEMENT (Employee)
-
-
 exports.applyReimbursement = async (req, res) => {
   try {
     const { amount, description, expenseDate } = req.body;
@@ -19,48 +15,31 @@ exports.applyReimbursement = async (req, res) => {
       expenseDate,
     });
 
-    res.status(201).json({
-      message: "Reimbursement submitted successfully",
-      reimbursement,
-    });
+    res.status(201).json({ message: "Reimbursement submitted successfully", reimbursement });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-// GET MY REIMBURSEMENTS
-
-
 exports.getMyReimbursements = async (req, res) => {
   try {
-    const reimbursements = await Reimbursement.find({
-      user: req.user._id,
-    }).sort({ createdAt: -1 });
-
+    const reimbursements = await Reimbursement.find({ user: req.user._id }).sort({ createdAt: -1 });
     res.status(200).json(reimbursements);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-// GET ALL REIMBURSEMENTS (Manager/Admin)
 
 exports.getAllReimbursements = async (req, res) => {
   try {
     const reimbursements = await Reimbursement.find()
       .populate("user", "name email")
       .sort({ createdAt: -1 });
-
     res.status(200).json(reimbursements);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-
-// UPDATE REIMBURSEMENT STATUS
-
 
 exports.updateReimbursementStatus = async (req, res) => {
   try {
@@ -78,18 +57,15 @@ exports.updateReimbursementStatus = async (req, res) => {
 
     reimbursement.status = req.body.status;
 
-      if (req.body.status === "Rejected") {
-        reimbursement.rejectionReason = req.body.rejectionReason || "";
-      } else {
-        reimbursement.rejectionReason = "";
-      }
+    if (req.body.status === "Rejected") {
+      reimbursement.rejectionReason = req.body.rejectionReason || "";
+    } else {
+      reimbursement.rejectionReason = "";
+    }
 
     await reimbursement.save();
 
-    res.status(200).json({
-      message: `Reimbursement ${status}`,
-      reimbursement,
-    });
+    res.status(200).json({ message: `Reimbursement ${status}`, reimbursement });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

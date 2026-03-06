@@ -86,7 +86,6 @@ const ManagerDashboard = () => {
     </div>
   );
 
-  // COUNTS 
   const countByStatus = (data, status) => {
     if (!Array.isArray(data)) return 0;
     return data.filter((item) => item?.status === status).length;
@@ -98,7 +97,7 @@ const ManagerDashboard = () => {
     <Layout>
       <div className="space-y-10">
 
-        {/* header  */}
+        
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             Manager Dashboard
@@ -109,7 +108,7 @@ const ManagerDashboard = () => {
           </span>
         </div>
 
-        {/* TABS */}
+        
         <div className="flex justify-center gap-4 mb-6">
           <button
             onClick={() => setActiveTab("leaves")}
@@ -134,7 +133,7 @@ const ManagerDashboard = () => {
           </button>
         </div>
 
-        {/* SUMMARY BOXES */}
+        
         <div>
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
             {activeTab === "leaves" ? "Leave Overview" : "Reimbursement Overview"}
@@ -142,7 +141,7 @@ const ManagerDashboard = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
 
-            {/* Approved */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 
               dark:from-green-900 dark:to-green-800 border border-green-300 dark:border-green-700 shadow-lg">
 
@@ -155,7 +154,7 @@ const ManagerDashboard = () => {
               </p>
             </div>
 
-            {/* Pending */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 
               dark:from-yellow-900 dark:to-yellow-800 border border-yellow-300 dark:border-yellow-700 shadow-lg">
 
@@ -168,7 +167,7 @@ const ManagerDashboard = () => {
               </p>
             </div>
 
-            {/* Rejected */}
+            
             <div className="p-6 rounded-2xl bg-gradient-to-br from-red-50 to-red-100 
               dark:from-red-900 dark:to-red-800 border border-red-300 dark:border-red-700 shadow-lg">
 
@@ -184,9 +183,7 @@ const ManagerDashboard = () => {
           </div>
         </div>
 
-
-
-        {/* LEAVES TABLE */}
+        
         {activeTab === "leaves" && (
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Leave Requests</h2>
@@ -250,7 +247,7 @@ const ManagerDashboard = () => {
           </div>
         )}
 
-        {/* REIMBURSEMENT TABLE */}
+        
         {activeTab === "reimbursements" && (
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Reimbursement Requests</h2>
@@ -312,7 +309,7 @@ const ManagerDashboard = () => {
           </div>
         )}
 
-        {/* VIEW MODAL */}
+        
         {viewText && (
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl w-full max-w-md border border-gray-300 dark:border-gray-700">
@@ -334,7 +331,7 @@ const ManagerDashboard = () => {
           </div>
         )}
 
-        {/* REJECT MODAL */}
+        
         {rejectId && (
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-full max-w-md border border-gray-300 dark:border-gray-700">

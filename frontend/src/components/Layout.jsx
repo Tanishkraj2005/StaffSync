@@ -18,14 +18,12 @@ const Layout = ({ children }) => {
   }, [darkMode]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 
-      dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
-
+    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 transition-colors duration-300 overflow-hidden">
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-
-      <div className="p-4 sm:p-6 lg:p-10 text-gray-800 dark:text-gray-100 
-        max-w-7xl mx-auto w-full">
-        {children}
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+          {children}
+        </div>
       </div>
     </div>
   );
