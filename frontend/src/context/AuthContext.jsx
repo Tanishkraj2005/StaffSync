@@ -22,7 +22,9 @@ export const AuthProvider = ({ children }) => {
 
           setUser(res.data);
         } catch (error) {
-          logout();
+          if (error.response && error.response.status === 401) {
+            logout();
+          }
         }
       }
       setLoading(false);
@@ -44,9 +46,9 @@ export const AuthProvider = ({ children }) => {
     return res.data.user;
   };
 
-  const loginWithGoogle = async (tokenFromGoogle) => {
+  const loginWithGoogle = async (credential) => {
     const res = await axios.post(`${API_URL}/auth/google`, {
-      token: tokenFromGoogle,
+      token: credential,
     });
 
     localStorage.setItem("token", res.data.token);
@@ -81,6 +83,7 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         loginWithGoogle,
+        setUser,
       }}
     >
       {children}
