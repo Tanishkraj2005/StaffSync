@@ -1,7 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const admin = require("../config/firebase");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || "PLACEHOLDER_CLIENT_ID");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -9,6 +10,11 @@ exports.registerUser = async (req, res) => {
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const allowedDomain = process.env.COMPANY_DOMAIN;
+    if (allowedDomain && !email.endsWith(`@${allowedDomain}`)) {
+      return res.status(403).json({ message: `Access Denied. Only ${allowedDomain} emails are allowed.` });
     }
 
     const existingUser = await User.findOne({ email });
@@ -78,14 +84,21 @@ exports.loginUser = async (req, res) => {
 exports.googleAuth = async (req, res) => {
   try {
     const { token } = req.body;
-
     if (!token) {
       return res.status(400).json({ message: "Google token is required" });
     }
 
-    const decodedToken = await admin.auth().verifyIdToken(token);
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID || "PLACEHOLDER_CLIENT_ID",
+    });
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
 
-    const { email, name } = decodedToken;
+    const allowedDomain = process.env.COMPANY_DOMAIN;
+    if (allowedDomain && !email.endsWith(`@${allowedDomain}`)) {
+      return res.status(403).json({ message: `Access Denied. Only ${allowedDomain} emails are allowed.` });
+    }
 
     let user = await User.findOne({ email });
 
@@ -116,6 +129,6 @@ exports.googleAuth = async (req, res) => {
     });
   } catch (error) {
     console.log("GOOGLE AUTH ERROR:", error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "Invalid Google token" });
   }
-};
+};
