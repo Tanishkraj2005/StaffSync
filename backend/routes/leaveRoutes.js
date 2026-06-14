@@ -9,33 +9,25 @@ const {
   getMyLeaves,
   getAllLeaves,
   updateLeaveStatus,
-} = require("../controllers/leaveController");
-
-// Employee - Apply Leave
+} = require("../controllers/leaveController");
 router.post(
   "/apply",
   protect,
-  authorizeRoles("Employee"),
+  authorizeRoles("Employee", "Manager", "Admin"),
   applyLeave
-);
-
-// Employee - View Own Leaves
+);
 router.get(
   "/my-leaves",
   protect,
-  authorizeRoles("Employee"),
+  authorizeRoles("Employee", "Manager", "Admin"),
   getMyLeaves
-);
-
-// Manager/Admin - View All Leaves
+);
 router.get(
   "/all",
   protect,
   authorizeRoles("Manager", "Admin"),
   getAllLeaves
-);
-
-// Manager/Admin - Approve/Reject Leave
+);
 router.put(
   "/:id/status",
   protect,

@@ -3,6 +3,7 @@ const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
   applyReimbursement,
@@ -11,23 +12,21 @@ const {
   updateReimbursementStatus,
 } = require("../controllers/reimbursementController");
 
-// Employee apply
 router.post(
   "/apply",
   protect,
-  authorizeRoles("Employee"),
+  authorizeRoles("Employee", "Manager", "Admin"),
+  upload.single("receipt"),
   applyReimbursement
 );
 
-// Employee view own
 router.get(
   "/my",
   protect,
-  authorizeRoles("Employee"),
+  authorizeRoles("Employee", "Manager", "Admin"),
   getMyReimbursements
 );
 
-// Manager/Admin view all
 router.get(
   "/all",
   protect,
@@ -35,7 +34,6 @@ router.get(
   getAllReimbursements
 );
 
-// Manager/Admin approve/reject
 router.put(
   "/:id/status",
   protect,

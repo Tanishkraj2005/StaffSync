@@ -20,6 +20,10 @@ const reimbursementSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    receiptUrl: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],

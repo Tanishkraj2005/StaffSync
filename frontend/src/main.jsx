@@ -4,6 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+import { Toaster } from 'react-hot-toast';
 
 const Root = () => {
   const [darkMode, setDarkMode] = useState(
@@ -23,11 +26,14 @@ const Root = () => {
   }, [darkMode]);
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <App darkMode={darkMode} setDarkMode={setDarkMode} />
-      </BrowserRouter>
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "PLACEHOLDER_CLIENT_ID"}>
+      <AuthProvider>
+        <BrowserRouter>
+          <App darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Toaster position="top-right" />
+        </BrowserRouter>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

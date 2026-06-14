@@ -34,6 +34,14 @@ const leaveSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    daysRequested: {
+      type: Number,
+      default: 1,
+    },
+    requiresAdminApproval: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
